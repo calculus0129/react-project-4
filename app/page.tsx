@@ -1,5 +1,5 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+// import Image from "next/image";
+// import styles from "./page.module.css";
 import AuthInputs from "@/component/AuthInputs";
 import Header from "@/component/Header";
 
