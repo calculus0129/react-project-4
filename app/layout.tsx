@@ -1,17 +1,5 @@
 import type { Metadata } from "next";
 import "./index.css";
-// import { Geist, Geist_Mono } from "next/font/google";
-// import "./globals.css";
-
-// const geistSans = Geist({
-//   variable: "--font-geist-sans",
-//   subsets: ["latin"],
-// });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
 
 export const metadata: Metadata = {
   title: "ReactArt",
@@ -40,8 +28,15 @@ export default function RootLayout({
           href="https://fonts.gstatic.com"
           crossOrigin=""
         />
+        {/* explicitly preloading the font stylesheet for faster loading. */}
         <link
-          href="https://fonts.googleapis.com/css2?family=Pacifico&display=swap"
+          rel="preload"
+          href="https://fonts.googleapis.com/css2?family=Audiowide&family=Sofia&display=swap"
+          as="style"
+        />
+        {/* https://www.w3.org/TR/css-fonts-4/#font-display-desc */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=Audiowide&family=Sofia&display=swap"
           rel="stylesheet"
         />
       </head>
