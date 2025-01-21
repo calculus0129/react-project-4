@@ -8,6 +8,8 @@ type Policy = {
   predicate: (value: string) => boolean;
 };
 
+const FIELDS = ["email", "password"];
+
 const policies: Policy[] = [
   {
     field: "email",
@@ -24,10 +26,11 @@ const policies: Policy[] = [
 const AuthInputs = () => {
   const [enteredContent, setEnteredContent] = useState<{
     [key: string]: string;
-  }>({
-    email: "",
-    password: "",
-  });
+  }>(
+    FIELDS.map((field) => ({ [field]: "" })).reduce((acc, curr) => {
+      return { ...acc, ...curr };
+    }),
+  );
   const [submitted, setSubmitted] = useState(false);
 
   const handleInputChange = (field: string, value: string) => {
@@ -50,32 +53,34 @@ const AuthInputs = () => {
       : undefined;
   });
 
+  const fieldInvalid = (field: string) => {
+    return !!invalidPolicies.filter((policy) => policy.field === field).length;
+  };
+
   return (
     <div id="auth-inputs">
       <div className="controls">
         <p>
-          <label>Email</label>
+          <label
+            className={`anyClass ${fieldInvalid("email") ? "invalid" : ""}`}
+          >
+            Email
+          </label>
           <input
             type="email"
-            className={
-              invalidPolicies.filter((policy) => policy.field === "email")
-                .length
-                ? "invalid"
-                : undefined
-            }
+            className={fieldInvalid("email") ? "invalid" : undefined}
             onChange={(event) => handleInputChange("email", event.target.value)}
           />
         </p>
         <p>
-          <label>Password</label>
+          <label
+            className={`anyClass ${fieldInvalid("password") ? "invalid" : ""}`}
+          >
+            Password
+          </label>
           <input
             type="password"
-            className={
-              invalidPolicies.filter((policy) => policy.field === "password")
-                .length
-                ? "invalid"
-                : undefined
-            }
+            className={fieldInvalid("password") ? "invalid" : undefined}
             onChange={(event) =>
               handleInputChange("password", event.target.value)
             }
