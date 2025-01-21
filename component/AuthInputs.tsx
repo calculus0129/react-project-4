@@ -17,7 +17,7 @@ const policies: Policy[] = [
   {
     field: "password",
     content: "password should be at least 6 characters",
-    predicate: (value: string) => value.trim().length < 6,
+    predicate: (value: string) => value.trim().length >= 6,
   },
 ];
 
@@ -59,6 +59,7 @@ const AuthInputs = () => {
             type="email"
             className={
               invalidPolicies.filter((policy) => policy.field === "email")
+                .length
                 ? "invalid"
                 : undefined
             }
@@ -71,6 +72,7 @@ const AuthInputs = () => {
             type="password"
             className={
               invalidPolicies.filter((policy) => policy.field === "password")
+                .length
                 ? "invalid"
                 : undefined
             }
