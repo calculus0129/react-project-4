@@ -1,6 +1,33 @@
 "use client";
 import { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+// specificity 0-0-1-0
+const Input = styled.input<{ $invalid?: boolean }>`
+  &[type="email"] {
+    // specificity 0-0-2-0
+    width: 100%;
+    padding: 0.75rem 1rem;
+    line-height: 1.5;
+    background-color: #d1d5db;
+    color: #374151;
+    border: 1px solid transparent;
+    border-radius: 0.25rem;
+    box-shadow:
+      0 1px 3px 0 rgba(0, 0, 0, 0.1),
+      0 1px 2px 0 rgba(0, 0, 0, 0.06);
+
+    ${(props) => {
+      if (props.$invalid) {
+        return css`
+          color: #0073cf;
+          border-color: #a06080;
+          background-color: #fed2fe;
+        `;
+      }
+    }}
+  }
+`;
 
 const ControlContainer = styled.div`
   display: flex;
@@ -25,8 +52,17 @@ const ControlContainer = styled.div`
 
 // Note that the styled-components stylings are applied subsequently to the .module.css or external CSS.
 
+// With this code, Label component without the 'invalid' prop works as expected.
+
 // Specificity: 0-0-1-0
-const Label = styled.label`
+interface LabelProps {
+  invalid?: boolean;
+}
+
+// Use styled-components' `shouldForwardProp` to filter out `invalid` prop.
+const Label = styled.label.withConfig({
+  shouldForwardProp: (prop) => prop !== "invalid", // Do not pass `invalid` to the DOM.
+})<LabelProps>`
   & {
     display: block;
     margin-bottom: 0.5rem;
@@ -34,7 +70,7 @@ const Label = styled.label`
     font-weight: 700;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: #6b7280;
+    color: ${(props) => (props.invalid ? "#f87171" : "#6b7280")};
   }
   // Specificity: 0-0-2-0
   // &.invalid {
@@ -101,21 +137,15 @@ const AuthInputs = () => {
     <div id="auth-inputs">
       <ControlContainer>
         <p>
-          <Label
-            className={`anyClass ${fieldInvalid("email") ? "invalid" : ""}`}
-          >
-            Email
-          </Label>
-          <input
+          <Label invalid={fieldInvalid("email")}>Email</Label>
+          <Input
             type="email"
-            className={fieldInvalid("email") ? "invalid" : undefined}
+            $invalid={fieldInvalid("email")}
             onChange={(event) => handleInputChange("email", event.target.value)}
           />
         </p>
         <p>
-          <Label className={`${fieldInvalid("password") ? "invalid" : ""}`}>
-            Password
-          </Label>
+          <Label invalid={fieldInvalid("password")}>Password</Label>
           <input
             type="password"
             className={fieldInvalid("password") ? "invalid" : undefined}

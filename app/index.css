@@ -44,9 +44,9 @@ button:focus {
 }
 
 /* specificity 0-0-1-1 */
-label.invalid {
+/* label.invalid {
   color: #f87171;
-}
+} */
 
 /* Increased the specificity to 0-0-1-2 by putting the 'div'. */
 div input.invalid {
