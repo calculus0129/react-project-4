@@ -1,6 +1,40 @@
 import { useState } from "react";
 import styled, { css } from "styled-components";
 
+const Button = styled.button`
+  cursor: pointer;
+  background: none;
+  line-height: inherit;
+  /* Remove focus outline from buttons */
+  /* Note: focus: 'tabbing' toward the button. */
+  &:focus {
+    outline: none;
+  }
+  &.button {
+    padding: 1rem 2rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    border-radius: 0.25rem;
+    color: #1f2937;
+    background-color: #f0b322;
+    border-radius: 6px;
+    border: none;
+  }
+
+  &.button:hover {
+    background-color: #f0920e;
+  }
+
+  &.text-button {
+    color: #f0b322;
+    border: none;
+  }
+
+  &.text-button:hover {
+    color: #f0920e;
+  }
+`;
+
 // specificity 0-0-1-0
 const Input = styled.input<{ $invalid?: boolean }>`
   &[type="email"] {
@@ -155,12 +189,12 @@ const AuthInputs = () => {
         </p>
       </ControlContainer>
       <div className="actions">
-        <button type="button" className="text-button">
+        <Button type="button" className="text-button">
           Create a new account
-        </button>
-        <button className="button" onClick={handleSubmit}>
+        </Button>
+        <Button className="button" onClick={handleSubmit}>
           Sign In
-        </button>
+        </Button>
       </div>
     </div>
   );
